@@ -1,0 +1,188 @@
+### DriveClone API - VS Code REST Client
+### Install extension: humao.rest-client
+### Usage: Click "Send Request" above each block
+
+@baseUrl = http://localhost:5000/api
+@token = PASTE_YOUR_TOKEN_HERE
+
+# ─────────────────────────────────────────────
+# AUTH
+# ─────────────────────────────────────────────
+
+### ✅ Health Check
+GET {{baseUrl}}/../health
+
+### 📝 Register
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Rahul Verma",
+  "email": "rahul@test.com",
+  "password": "password123"
+}
+
+### 🔐 Login  (copy token from response → paste in @token above)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "rahul@test.com",
+  "password": "password123"
+}
+
+### 👤 Get Current User
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+
+# ─────────────────────────────────────────────
+# FOLDERS
+# ─────────────────────────────────────────────
+
+### 📁 Create Root Folder
+# @name createRoot
+POST {{baseUrl}}/folders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Projects",
+  "color": "#8B5CF6"
+}
+
+### 📁 Create Root Folder 2
+POST {{baseUrl}}/folders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Campaigns",
+  "color": "#06B6D4"
+}
+
+### 📂 Create Nested Folder (paste parent _id below)
+@parentFolderId = PASTE_FOLDER_ID_HERE
+
+POST {{baseUrl}}/folders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Design Assets",
+  "parentFolder": "{{parentFolderId}}",
+  "color": "#F97316"
+}
+
+### 📋 Get Root Folders
+GET {{baseUrl}}/folders
+Authorization: Bearer {{token}}
+
+### 📋 Get Children of a Folder
+GET {{baseUrl}}/folders?parentFolder={{parentFolderId}}
+Authorization: Bearer {{token}}
+
+### 🌳 Get Full Folder Tree
+GET {{baseUrl}}/folders/tree
+Authorization: Bearer {{token}}
+
+### 🔍 Get Single Folder + Breadcrumb
+GET {{baseUrl}}/folders/{{parentFolderId}}
+Authorization: Bearer {{token}}
+
+### 📏 Get Recursive Folder Size
+GET {{baseUrl}}/folders/{{parentFolderId}}/size
+Authorization: Bearer {{token}}
+
+### ✏️ Rename Folder
+PUT {{baseUrl}}/folders/{{parentFolderId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Renamed Projects",
+  "color": "#EF4444"
+}
+
+### 🗑️ Delete Folder (and all nested contents)
+DELETE {{baseUrl}}/folders/{{parentFolderId}}
+Authorization: Bearer {{token}}
+
+
+# ─────────────────────────────────────────────
+# IMAGES
+# ─────────────────────────────────────────────
+
+@folderId = PASTE_FOLDER_ID_HERE
+
+### 📤 Upload Image (use a real file path)
+POST {{baseUrl}}/images/upload/{{folderId}}
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="image"; filename="test.jpg"
+Content-Type: image/jpeg
+
+< ./test.jpg
+--boundary--
+
+### 🖼️ Get Images in Folder
+GET {{baseUrl}}/images/folder/{{folderId}}
+Authorization: Bearer {{token}}
+
+### 🖼️ Get All My Images
+GET {{baseUrl}}/images
+Authorization: Bearer {{token}}
+
+### 🗑️ Delete Image
+@imageId = PASTE_IMAGE_ID_HERE
+
+DELETE {{baseUrl}}/images/{{imageId}}
+Authorization: Bearer {{token}}
+
+
+# ─────────────────────────────────────────────
+# MCP SERVER (port 5001)
+# ─────────────────────────────────────────────
+
+@mcpUrl = http://localhost:5001
+@ownerId = PASTE_USER_ID_HERE
+
+### 🔧 List MCP Tools
+GET {{mcpUrl}}/mcp/tools
+
+### 🤖 Create Folder via MCP
+POST {{mcpUrl}}/mcp/execute
+Content-Type: application/json
+
+{
+  "tool": "create_folder",
+  "input": {
+    "name": "AI Generated Folder",
+    "ownerId": "{{ownerId}}"
+  }
+}
+
+### 🤖 List Folders via MCP
+POST {{mcpUrl}}/mcp/execute
+Content-Type: application/json
+
+{
+  "tool": "list_folders",
+  "input": {
+    "ownerId": "{{ownerId}}"
+  }
+}
+
+### 🤖 Get Folder Size via MCP
+POST {{mcpUrl}}/mcp/execute
+Content-Type: application/json
+
+{
+  "tool": "get_folder_size",
+  "input": {
+    "folderId": "{{folderId}}",
+    "ownerId": "{{ownerId}}"
+  }
+}

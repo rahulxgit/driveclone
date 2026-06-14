@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "dsznajder.es7-react-js-snippets",
+    "mongodb.mongodb-vscode",
+    "humao.rest-client",
+    "christian-kohler.path-intellisense",
+    "formulahendry.auto-rename-tag",
+    "PKief.material-icon-theme",
+    "GitHub.copilot",
+    "eamodio.gitlens",
+    "ms-vscode.live-server"
+  ]
+}

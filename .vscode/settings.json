@@ -1,0 +1,21 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "editor.quickSuggestions": { "strings": true },
+  "emmet.includeLanguages": { "javascript": "javascriptreact" },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/build": true
+  },
+  "eslint.workingDirectories": ["./frontend", "./backend"],
+  "tailwindCSS.includeLanguages": { "javascript": "javascript", "html": "HTML" },
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
+}
